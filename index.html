@@ -1,481 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="UDP — Unified Data Pipeline. A Databricks-focused FMCG lakehouse data engineering project built as a self-initiated V4C interview proof of concept." />
-  <meta name="theme-color" content="#080808" />
-  <title>UDP — Unified Data Pipeline | Databricks DE POC</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="UDP — Unified Data Pipeline | Databricks Data Engineering POC">
+  <meta name="theme-color" content="#f7f8fa">
+  <title>UDP — Unified Data Pipeline | V4C Data Engineering POC</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <canvas id="networkCanvas" aria-hidden="true"></canvas>
 
-  <div class="page-noise" aria-hidden="true"></div>
-
-  <header class="navbar" id="navbar">
+  <header class="navbar">
     <div class="nav-inner">
-      <a class="brand" href="#home" aria-label="UDP home">
-        <span class="brand-mark">U</span>
-        <span>UDP <em>4 V4C</em></span>
-      </a>
-
+      <a class="brand" href="#home"><span class="brand-mark">U</span><span>UDP <em>4 V4C</em></span></a>
       <nav id="navLinks">
         <a href="#overview">Overview</a>
         <a href="#architecture">Architecture</a>
+        <a href="#evidence">Evidence</a>
         <a href="#engineering">Engineering</a>
         <a href="#model">Data Model</a>
-        <a href="#contact">Project</a>
       </nav>
-
-      <a class="nav-cta" href="#architecture">Explore pipeline <span>↗</span></a>
-      <button class="menu-toggle" id="menuToggle" aria-label="Open navigation">
-        <span></span><span></span><span></span>
-      </button>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle theme" aria-label="Toggle theme">◐</button>
+        <a class="nav-cta" href="#evidence">View evidence ↗</a>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
     </div>
   </header>
 
   <main>
-    <!-- HERO -->
+    <!-- =====================================================
+         HERO
+         Replace the text only if you want to personalize it.
+    ====================================================== -->
     <section class="hero section" id="home">
       <div class="hero-grid">
         <div class="hero-copy reveal">
           <div class="eyebrow"><span class="pulse"></span> SELF-INITIATED INTERVIEW POC</div>
-
-          <h1>
-            <span class="muted-line">UDP</span>
-            <span>Unified</span>
-            <span class="gradient">Data Pipeline</span>
-          </h1>
-
+          <h1><span class="mini-title">UDP</span><span>Unified</span><span class="gradient">Data Pipeline</span></h1>
           <p class="hero-lede">
             An end-to-end Databricks lakehouse implementation for an FMCG child company,
-            taking raw S3 data through Bronze, Silver and Gold layers before integrating
-            the child company's analytics with a parent-company data model.
+            taking raw S3 data through Bronze, Silver and Gold before preparing the data
+            for parent-company analytics.
           </p>
-
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#architecture">Trace the pipeline <span>↓</span></a>
-            <a class="btn btn-ghost" href="#engineering">See engineering decisions</a>
+            <a class="btn primary" href="#architecture">Trace the pipeline ↓</a>
+            <a class="btn secondary" href="#evidence">See real evidence</a>
           </div>
-
-          <div class="hero-note">
-            <span>BUILT AROUND THE V4C ROLE</span>
-            <span>•</span>
-            <span>DATABRICKS DATA + AI STACK</span>
-          </div>
+          <div class="hero-note">DATABRICKS · PYSPARK · DELTA · S3 · UNITY CATALOG · LAKEFLOW</div>
         </div>
 
-        <div class="hero-console glass reveal">
-          <div class="console-top">
-            <span class="console-dot red"></span>
-            <span class="console-dot yellow"></span>
-            <span class="console-dot green"></span>
-            <span class="console-title">udp_pipeline_status</span>
-            <span class="console-live">LIVE POC</span>
-          </div>
-
-          <div class="console-body">
-            <div class="console-line"><span class="dim">$</span> pipeline.run(<span class="cyan">"udp"</span>)</div>
-            <div class="console-line"><span class="green">✓</span> source <span class="cyan">S3</span> detected</div>
-            <div class="console-line"><span class="green">✓</span> Lakeflow job started</div>
-            <div class="console-line"><span class="green">✓</span> bronze ingestion complete</div>
-            <div class="console-line"><span class="green">✓</span> silver quality rules passed</div>
-            <div class="console-line"><span class="green">✓</span> gold fact aggregation complete</div>
-            <div class="console-line"><span class="green">✓</span> parent merge ready</div>
-            <div class="console-line"><span class="green">✓</span> serving layer available</div>
-            <div class="console-divider"></div>
-            <div class="console-result"><span>STATUS</span><strong>PIPELINE READY</strong></div>
+        <div class="terminal glass reveal">
+          <div class="terminal-head"><span>●</span><span>●</span><span>●</span><b>udp_pipeline_status</b><i>POC</i></div>
+          <div class="terminal-body">
+            <div><span class="dim">$</span> pipeline.run(<span class="cyan">"udp"</span>)</div>
+            <div><span class="ok">✓</span> source <span class="cyan">S3</span> detected</div>
+            <div><span class="ok">✓</span> Lakeflow workflow ready</div>
+            <div><span class="ok">✓</span> Bronze ingestion complete</div>
+            <div><span class="ok">✓</span> Silver quality rules applied</div>
+            <div><span class="ok">✓</span> Gold fact + dimensions ready</div>
+            <div><span class="ok">✓</span> parent merge prepared</div>
+            <hr>
+            <strong>STATUS: PIPELINE READY</strong>
           </div>
         </div>
       </div>
 
       <div class="facts reveal">
-        <div class="fact"><span>PLATFORM</span><strong>Databricks</strong></div>
-        <div class="fact"><span>STORAGE</span><strong>S3 + Delta</strong></div>
-        <div class="fact"><span>PROCESSING</span><strong>PySpark</strong></div>
-        <div class="fact"><span>GOVERNANCE</span><strong>Unity Catalog</strong></div>
-        <div class="fact"><span>ORCHESTRATION</span><strong>Lakeflow Jobs</strong></div>
+        <div><span>PLATFORM</span><b>Databricks</b></div>
+        <div><span>STORAGE</span><b>S3 + Delta</b></div>
+        <div><span>PROCESSING</span><b>PySpark</b></div>
+        <div><span>GOVERNANCE</span><b>Unity Catalog</b></div>
+        <div><span>ORCHESTRATION</span><b>Lakeflow Jobs</b></div>
       </div>
     </section>
 
-    <!-- OVERVIEW -->
     <section class="section" id="overview">
-      <div class="section-head reveal">
-        <div class="section-index">01</div>
-        <div>
-          <span class="kicker">WHY UDP</span>
-          <h2>Not a tutorial.<br><span class="gradient">A complete pipeline story.</span></h2>
-        </div>
-      </div>
-
+      <div class="section-head reveal"><span>01</span><div><small>PROJECT CONTEXT</small><h2>One project.<br><em>One complete data story.</em></h2></div></div>
       <div class="overview-grid">
-        <article class="story glass reveal">
-          <span class="micro">THE PROJECT</span>
-          <h3>From child-company raw data to parent-company analytics.</h3>
+        <article class="card story reveal">
+          <small>THE PROBLEM</small>
+          <h3>How do you turn child-company operational data into governed enterprise analytics?</h3>
           <p>
-            UDP models a realistic consolidation problem: a child FMCG business has its own
-            customers, products, pricing and order data. The pipeline standardizes that data,
-            creates analytics-ready Gold data, and prepares it for integration with a parent
-            company's Gold analytics model.
+            UDP models that exact flow. Raw customers, products, pricing and orders enter through
+            S3. Databricks processes them through Bronze, Silver and Gold, then aligns the child
+            company's Gold data with a parent-company analytics model.
           </p>
           <p>
-            The implementation uses the Bronze/Silver/Gold pattern, Delta tables, Spark
-            transformations, Unity Catalog schemas and both full-load and incremental fact
-            processing.
+            The goal was not to build a generic ETL demo. The goal was to understand the engineering
+            decisions behind a realistic Databricks data pipeline and be able to explain each layer.
           </p>
         </article>
-
-        <div class="signal-stack reveal">
-          <div class="signal glass">
-            <span class="signal-number">01</span>
-            <div><strong>Raw → Trusted</strong><p>Preserve raw files, then clean and standardize before analytics.</p></div>
-          </div>
-          <div class="signal glass">
-            <span class="signal-number">02</span>
-            <div><strong>Child → Parent</strong><p>Align child attributes with the parent data model before merge.</p></div>
-          </div>
-          <div class="signal glass">
-            <span class="signal-number">03</span>
-            <div><strong>Full → Incremental</strong><p>Support initial historical loads and subsequent arriving data.</p></div>
-          </div>
+        <div class="signals">
+          <div class="signal card reveal"><b>01</b><div><strong>Raw → Trusted</strong><p>Preserve source data, then standardize and validate it.</p></div></div>
+          <div class="signal card reveal"><b>02</b><div><strong>Child → Parent</strong><p>Align child Gold data with the parent analytics model.</p></div></div>
+          <div class="signal card reveal"><b>03</b><div><strong>Full → Incremental</strong><p>Support initial historical processing and arriving data.</p></div></div>
         </div>
       </div>
     </section>
 
-    <!-- ARCHITECTURE -->
-    <section class="section architecture" id="architecture">
-      <div class="section-head reveal">
-        <div class="section-index">02</div>
-        <div>
-          <span class="kicker">SYSTEM ARCHITECTURE</span>
-          <h2>Trace every layer.<br><span class="gradient">Click the pipeline.</span></h2>
+    <section class="section" id="architecture">
+      <div class="section-head reveal"><span>02</span><div><small>SYSTEM ARCHITECTURE</small><h2>Click through<br><em>the pipeline.</em></h2></div></div>
+
+      <div class="architecture card reveal">
+        <div class="arch-head"><span>UDP / END-TO-END DATA FLOW</span><b><i></i> INTERACTIVE</b></div>
+        <div class="pipeline-wrap">
+          <div class="pipeline">
+            <button class="node active" data-stage="source"><small>01</small><b>S3</b><strong>RAW SOURCE</strong><em>Landing files</em></button>
+            <i class="arrow">→</i>
+            <button class="node" data-stage="lakeflow"><small>02</small><b>LF</b><strong>LAKEFLOW</strong><em>Orchestration</em></button>
+            <i class="arrow">→</i>
+            <button class="node" data-stage="bronze"><small>03</small><b>B</b><strong>BRONZE</strong><em>Raw Delta</em></button>
+            <i class="arrow">→</i>
+            <button class="node" data-stage="silver"><small>04</small><b>S</b><strong>SILVER</strong><em>Trusted data</em></button>
+            <i class="arrow">→</i>
+            <button class="node" data-stage="gold"><small>05</small><b>G</b><strong>GOLD</strong><em>Analytics</em></button>
+            <i class="arrow">→</i>
+            <button class="node" data-stage="serve"><small>06</small><b>AI</b><strong>SERVING</strong><em>BI + Genie</em></button>
+          </div>
+        </div>
+
+        <div class="detail">
+          <div><small id="stageIndex">01 / 06</small><h3 id="stageTitle">S3 Raw Data</h3><p id="stageText"></p></div>
+          <div><small>TECHNOLOGIES</small><div id="stageTags" class="tags"></div></div>
         </div>
       </div>
 
-      <div class="arch-shell glass reveal">
-        <div class="arch-topbar">
-          <span>UDP / PRODUCTION-STYLE FLOW</span>
-          <span class="arch-status"><i></i> DATA FLOW</span>
-        </div>
-
-        <div class="pipeline-scroll">
-          <div class="pipeline" id="pipeline">
-            <button class="node active" data-stage="source">
-              <span class="node-index">01</span>
-              <span class="node-icon">S3</span>
-              <strong>RAW SOURCE</strong>
-              <small>Landing files</small>
-            </button>
-            <div class="connector"><span></span></div>
-
-            <button class="node" data-stage="lakeflow">
-              <span class="node-index">02</span>
-              <span class="node-icon">LF</span>
-              <strong>LAKEFLOW JOBS</strong>
-              <small>Orchestration</small>
-            </button>
-            <div class="connector"><span></span></div>
-
-            <button class="node" data-stage="bronze">
-              <span class="node-index">03</span>
-              <span class="node-icon">B</span>
-              <strong>BRONZE</strong>
-              <small>Raw Delta</small>
-            </button>
-            <div class="connector"><span></span></div>
-
-            <button class="node" data-stage="silver">
-              <span class="node-index">04</span>
-              <span class="node-icon">S</span>
-              <strong>SILVER</strong>
-              <small>Trusted data</small>
-            </button>
-            <div class="connector"><span></span></div>
-
-            <button class="node" data-stage="gold">
-              <span class="node-index">05</span>
-              <span class="node-icon">G</span>
-              <strong>GOLD</strong>
-              <small>Fact + dimensions</small>
-            </button>
-            <div class="connector"><span></span></div>
-
-            <button class="node" data-stage="serve">
-              <span class="node-index">06</span>
-              <span class="node-icon">AI</span>
-              <strong>SERVING</strong>
-              <small>Dashboards + Genie</small>
-            </button>
-          </div>
-        </div>
-
-        <div class="detail-panel" id="detailPanel">
-          <div class="detail-main">
-            <span class="detail-index" id="detailIndex">01 / 06</span>
-            <h3 id="detailTitle">S3 Raw Data</h3>
-            <p id="detailText">
-              Raw files land in object storage before processing. The project uses separate
-              landing and processed locations for the orders flow so consumed source files can
-              be moved out of the landing area after ingestion.
-            </p>
-          </div>
-          <div class="detail-side">
-            <span class="micro">TECHNOLOGIES</span>
-            <div class="tags" id="detailTags">
-              <span>S3</span><span>CSV</span><span>Landing</span><span>Processed</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="layer-strip">
-          <button class="layer-chip active" data-layer="bronze">BRONZE <small>RAW</small></button>
-          <button class="layer-chip" data-layer="silver">SILVER <small>TRUSTED</small></button>
-          <button class="layer-chip" data-layer="gold">GOLD <small>ANALYTICS</small></button>
-        </div>
-      </div>
-
-      <div class="parent-child reveal">
-        <div class="company-box child glass">
-          <span class="company-label">CHILD COMPANY</span>
-          <h3>FMCG / SportsBar</h3>
-          <div class="mini-flow">
-            <span>S3</span><b>→</b><span>Lakeflow</span><b>→</b><span>Bronze</span><b>→</b><span>Silver</span><b>→</b><span>Gold</span>
-          </div>
-          <p>Customers · Products · Gross Price · Orders</p>
-        </div>
-
-        <div class="merge-arrow">
-          <span>STANDARDIZE + MERGE</span>
-          <strong>→</strong>
-        </div>
-
-        <div class="company-box parent glass">
-          <span class="company-label">PARENT COMPANY</span>
-          <h3>Enterprise Gold Analytics</h3>
-          <div class="parent-mark">UNITY CATALOG</div>
-          <p>Child Gold data aligned with the parent analytics model.</p>
-        </div>
-      </div>
-
-      <div class="serving reveal">
-        <div class="serving-label">SERVING LAYER</div>
-        <div class="serve-card glass"><span>▦</span><strong>Dashboards</strong><small>Gold analytics</small></div>
-        <div class="serve-card glass"><span>✦</span><strong>Genie</strong><small>Natural-language analytics</small></div>
+      <div class="company-flow reveal">
+        <div class="company card"><small>CHILD COMPANY</small><h3>FMCG / SportsBar</h3><div>S3 → Lakeflow → Bronze → Silver → Gold</div><p>Customers · Products · Gross Price · Orders</p></div>
+        <div class="merge"><small>STANDARDIZE + MERGE</small><strong>→</strong></div>
+        <div class="company card"><small>PARENT COMPANY</small><h3>Enterprise Gold Analytics</h3><div class="catalog">UNITY CATALOG</div><p>Child Gold data aligned to the parent analytics model.</p></div>
       </div>
     </section>
 
-    <!-- ENGINEERING -->
+    <!-- =====================================================
+         REAL SCREENSHOT EVIDENCE
+         THIS IS THE MOST IMPORTANT SECTION TO PERSONALIZE.
+
+         Create an /assets folder beside index.html.
+         Put your actual screenshots there and change ONLY
+         the src paths below.
+
+         Suggested files:
+           assets/architecture.png
+           assets/databricks-workspace.png
+           assets/lakeflow-job.png
+           assets/bronze.png
+           assets/silver.png
+           assets/gold.png
+           assets/dashboard.png
+
+         The placeholders intentionally remain professional
+         until you add the real images.
+    ====================================================== -->
+    <section class="section" id="evidence">
+      <div class="section-head reveal"><span>03</span><div><small>REAL PROJECT EVIDENCE</small><h2>Show the work,<br><em>not just the words.</em></h2></div></div>
+
+      <div class="evidence-grid">
+        <article class="evidence-card card reveal">
+          <div class="shot-slot">
+            <!-- PASTE REAL SCREENSHOT HERE:
+                 <img src="assets/architecture.png" alt="UDP Databricks architecture">
+            -->
+            <span>PASTE<br><b>ARCHITECTURE SCREENSHOT</b><small>assets/architecture.png</small></span>
+          </div>
+          <div class="evidence-meta"><b>01</b><div><strong>End-to-end architecture</strong><p>Use your actual architecture / diagram screenshot here.</p></div></div>
+        </article>
+
+        <article class="evidence-card card reveal">
+          <div class="shot-slot">
+            <!-- PASTE REAL SCREENSHOT HERE:
+                 <img src="assets/databricks-workspace.png" alt="Databricks workspace">
+            -->
+            <span>PASTE<br><b>DATABRICKS WORKSPACE</b><small>assets/databricks-workspace.png</small></span>
+          </div>
+          <div class="evidence-meta"><b>02</b><div><strong>Databricks implementation</strong><p>Show the notebooks, catalog and schemas you actually created.</p></div></div>
+        </article>
+
+        <article class="evidence-card card reveal">
+          <div class="shot-slot">
+            <!-- PASTE REAL SCREENSHOT HERE:
+                 <img src="assets/lakeflow-job.png" alt="Lakeflow Jobs workflow">
+            -->
+            <span>PASTE<br><b>LAKEFLOW JOB</b><small>assets/lakeflow-job.png</small></span>
+          </div>
+          <div class="evidence-meta"><b>03</b><div><strong>Orchestration</strong><p>Show the real workflow / task graph.</p></div></div>
+        </article>
+
+        <article class="evidence-card card reveal">
+          <div class="shot-slot">
+            <!-- PASTE REAL SCREENSHOT HERE:
+                 <img src="assets/bronze.png" alt="Bronze Delta table">
+            -->
+            <span>PASTE<br><b>BRONZE OUTPUT</b><small>assets/bronze.png</small></span>
+          </div>
+          <div class="evidence-meta"><b>04</b><div><strong>Bronze Delta layer</strong><p>Show an actual table preview and ingestion metadata.</p></div></div>
+        </article>
+
+        <article class="evidence-card card reveal">
+          <div class="shot-slot">
+            <!-- PASTE REAL SCREENSHOT HERE:
+                 <img src="assets/silver.png" alt="Silver data quality output">
+            -->
+            <span>PASTE<br><b>SILVER QUALITY</b><small>assets/silver.png</small></span>
+          </div>
+          <div class="evidence-meta"><b>05</b><div><strong>Data quality + standardization</strong><p>Show the before/after or cleaned Silver output.</p></div></div>
+        </article>
+
+        <article class="evidence-card card reveal">
+          <div class="shot-slot">
+            <!-- PASTE REAL SCREENSHOT HERE:
+                 <img src="assets/gold.png" alt="Gold fact and dimensions">
+            -->
+            <span>PASTE<br><b>GOLD MODEL</b><small>assets/gold.png</small></span>
+          </div>
+          <div class="evidence-meta"><b>06</b><div><strong>Analytics-ready Gold</strong><p>Show the fact table, dimensions or query result.</p></div></div>
+        </article>
+      </div>
+
+      <!-- OPTIONAL: Replace this entire block with a real dashboard screenshot. -->
+      <div class="wide-shot card reveal">
+        <div class="wide-shot-placeholder">
+          <!-- PASTE REAL DASHBOARD SCREENSHOT HERE:
+               <img src="assets/dashboard.png" alt="UDP Gold analytics dashboard">
+          -->
+          <span>OPTIONAL — PASTE YOUR REAL <b>POWER BI / DATABRICKS DASHBOARD</b> SCREENSHOT HERE</span>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="engineering">
-      <div class="section-head reveal">
-        <div class="section-index">03</div>
-        <div>
-          <span class="kicker">ENGINEERING DETAILS</span>
-          <h2>Where the project<br><span class="gradient">gets interesting.</span></h2>
-        </div>
-      </div>
-
+      <div class="section-head reveal"><span>04</span><div><small>ENGINEERING DECISIONS</small><h2>The parts worth<br><em>discussing in L2.</em></h2></div></div>
       <div class="engineering-grid">
-        <article class="eng-card glass reveal">
-          <span class="eng-no">A</span>
-          <div class="eng-icon">01</div>
-          <h3>Data quality & standardization</h3>
-          <p>
-            The Silver layer handles real-world dirty data rather than assuming clean CSVs.
-            Customer processing includes duplicate removal, whitespace trimming, city typo
-            correction, title casing, missing-city handling and ID normalization.
-          </p>
-          <div class="eng-tags"><span>Deduplication</span><span>Normalization</span><span>DQ</span></div>
-        </article>
-
-        <article class="eng-card glass reveal">
-          <span class="eng-no">B</span>
-          <div class="eng-icon">02</div>
-          <h3>Product master alignment</h3>
-          <p>
-            Product processing fixes category casing and spelling, derives division and variant,
-            creates a deterministic product_code using SHA-256 and keeps invalid product IDs from
-            breaking downstream joins.
-          </p>
-          <div class="eng-tags"><span>PySpark</span><span>SHA-256</span><span>Data Model</span></div>
-        </article>
-
-        <article class="eng-card glass reveal">
-          <span class="eng-no">C</span>
-          <div class="eng-icon">03</div>
-          <h3>Messy pricing made analytical</h3>
-          <p>
-            Pricing data arrives with multiple date formats and invalid/negative price values.
-            The Silver layer parses multiple formats, converts valid numeric values, fixes
-            negative prices and maps non-numeric values to a controlled fallback.
-          </p>
-          <div class="eng-tags"><span>try_to_date</span><span>Validation</span><span>Enrichment</span></div>
-        </article>
-
-        <article class="eng-card glass reveal">
-          <span class="eng-no">D</span>
-          <div class="eng-icon">04</div>
-          <h3>Full + incremental fact loads</h3>
-          <p>
-            Orders are processed at daily grain and then aggregated to monthly grain for the
-            target analytics model. The project includes a full-load notebook and a separate
-            incremental-load path with staging for newly arrived data.
-          </p>
-          <div class="eng-tags"><span>Delta</span><span>Incremental</span><span>Monthly Grain</span></div>
-        </article>
-
-        <article class="eng-card glass reveal">
-          <span class="eng-no">E</span>
-          <div class="eng-icon">05</div>
-          <h3>Delta + Change Data Feed</h3>
-          <p>
-            The project writes Bronze/Silver datasets as Delta tables and enables Delta Change
-            Data Feed on the relevant tables, supporting a stronger foundation for downstream
-            change-aware processing.
-          </p>
-          <div class="eng-tags"><span>Delta Lake</span><span>CDF</span><span>ACID</span></div>
-        </article>
-
-        <article class="eng-card glass reveal">
-          <span class="eng-no">F</span>
-          <div class="eng-icon">06</div>
-          <h3>Unity Catalog structure</h3>
-          <p>
-            The project creates the <code>fmcg</code> catalog and Bronze, Silver and Gold schemas,
-            giving the pipeline a governed namespace for its Delta tables.
-          </p>
-          <div class="eng-tags"><span>Unity Catalog</span><span>fmcg</span><span>Governance</span></div>
-        </article>
+        <article class="card eng reveal"><span>01</span><h3>Data quality & standardization</h3><p>Customer processing handles duplicates, whitespace, casing, city corrections, missing values and ID normalization before trusted data reaches downstream consumers.</p><div class="tags"><b>Deduplication</b><b>Normalization</b><b>DQ</b></div></article>
+        <article class="card eng reveal"><span>02</span><h3>Product master alignment</h3><p>Product processing standardizes category values, derives division and variant, and creates a deterministic product_code for downstream joins.</p><div class="tags"><b>PySpark</b><b>SHA-256</b><b>Master Data</b></div></article>
+        <article class="card eng reveal"><span>03</span><h3>Messy pricing made analytical</h3><p>Pricing transformations parse inconsistent date formats, validate numeric prices and handle invalid or negative values before Silver output.</p><div class="tags"><b>Date Parsing</b><b>Validation</b><b>Enrichment</b></div></article>
+        <article class="card eng reveal"><span>04</span><h3>Full + incremental fact loads</h3><p>Orders are processed at daily grain and aggregated to monthly grain. Separate full-load and incremental paths support historical and arriving data.</p><div class="tags"><b>Delta</b><b>Incremental</b><b>Monthly Grain</b></div></article>
+        <article class="card eng reveal"><span>05</span><h3>Delta + Change Data Feed</h3><p>Bronze and Silver datasets are written as Delta tables, with Change Data Feed enabled on relevant tables to support change-aware processing.</p><div class="tags"><b>Delta Lake</b><b>CDF</b><b>ACID</b></div></article>
+        <article class="card eng reveal"><span>06</span><h3>Unity Catalog organization</h3><p>The project uses the fmcg catalog with Bronze, Silver and Gold schemas to create a clear governed namespace for the pipeline.</p><div class="tags"><b>Unity Catalog</b><b>fmcg</b><b>Governance</b></div></article>
       </div>
     </section>
 
-    <!-- DATA MODEL -->
     <section class="section" id="model">
-      <div class="section-head reveal">
-        <div class="section-index">04</div>
-        <div>
-          <span class="kicker">DATA MODEL</span>
-          <h2>Analytics-ready<br><span class="gradient">Gold layer.</span></h2>
-        </div>
-      </div>
-
-      <div class="model-layout">
-        <div class="model-card fact glass reveal">
-          <span class="table-type">FACT</span>
-          <h3>sb_fact_orders</h3>
-          <p>Monthly-grain business facts built from daily order data.</p>
-          <div class="columns">
-            <span>date</span><span>product_code</span><span>customer_code</span><span>order_qty</span><span>gross_price</span>
-          </div>
-        </div>
-
-        <div class="model-center reveal">
-          <div class="join-line"></div>
-          <span>JOINS</span>
-          <div class="join-line"></div>
-        </div>
-
+      <div class="section-head reveal"><span>05</span><div><small>GOLD DATA MODEL</small><h2>Analytics-ready<br><em>business facts.</em></h2></div></div>
+      <div class="model-grid">
+        <article class="fact card reveal"><small>FACT</small><h3>sb_fact_orders</h3><p>Monthly-grain business facts derived from daily orders.</p><div class="fields"><span>date</span><span>product_code</span><span>customer_code</span><span>order_qty</span><span>gross_price</span></div></article>
+        <div class="joins">JOINS<br><b>×</b></div>
         <div class="dims">
-          <div class="dim-card glass reveal"><span>DIM</span><strong>dim_date</strong><small>date_key · year · month · quarter</small></div>
-          <div class="dim-card glass reveal"><span>DIM</span><strong>dim_product</strong><small>product_code · division · category · variant</small></div>
-          <div class="dim-card glass reveal"><span>DIM</span><strong>dim_customer</strong><small>customer_code · customer · market · channel</small></div>
+          <article class="card reveal"><small>DIM</small><strong>dim_date</strong><p>date_key · year · month · quarter</p></article>
+          <article class="card reveal"><small>DIM</small><strong>dim_product</strong><p>product_code · division · category · variant</p></article>
+          <article class="card reveal"><small>DIM</small><strong>dim_customer</strong><p>customer_code · customer · market · channel</p></article>
         </div>
       </div>
+      <div class="date-card card reveal"><div><small>DATE DIMENSION</small><strong>2024-01 → 2025-12</strong></div><p>The project generates a monthly date dimension with date_key, year, month name, quarter and year-quarter for the Gold layer.</p></div>
+    </section>
 
-      <div class="date-note glass reveal">
-        <div><span class="micro">DATE DIMENSION</span><strong>2024-01 → 2025-12</strong></div>
+    <section class="section">
+      <div class="stack card reveal">
+        <div><small>STACK</small><h2>Tools used in UDP.</h2></div>
+        <div class="stack-row"><span>STORAGE</span><b>S3</b><b>Delta Lake</b></div>
+        <div class="stack-row"><span>COMPUTE</span><b>Apache Spark</b><b>PySpark</b></div>
+        <div class="stack-row"><span>PLATFORM</span><b>Databricks</b><b>Unity Catalog</b></div>
+        <div class="stack-row"><span>ORCHESTRATION</span><b>Lakeflow Jobs</b><b>Databricks Workflows</b></div>
+        <div class="stack-row"><span>SERVING</span><b>Dashboards</b><b>Genie</b></div>
+      </div>
+    </section>
+
+    <section class="section final">
+      <div class="final-card reveal">
+        <small>WHY UDP</small>
+        <h2>I didn't just prepare<br>for the interview.<br><em>I built the system.</em></h2>
         <p>
-          The date notebook generates one row per month start and derives date_key, year,
-          month name, quarter and year-quarter before writing the Delta table
-          <code>fmcg.gold.dim_date</code>.
+          UDP was built as a self-initiated Data Engineering POC to understand the complete
+          Databricks workflow — from raw ingestion and data quality to Gold modeling and serving.
         </p>
-      </div>
-    </section>
-
-    <!-- STACK -->
-    <section class="section stack-section">
-      <div class="section-head reveal">
-        <div class="section-index">05</div>
-        <div>
-          <span class="kicker">TECHNOLOGY MAP</span>
-          <h2>The stack behind<br><span class="gradient">UDP.</span></h2>
-        </div>
-      </div>
-
-      <div class="stack-map glass reveal">
-        <div class="stack-row">
-          <span class="stack-label">STORAGE</span>
-          <div><b>S3</b><small>raw landing + processed paths</small></div>
-          <div><b>Delta Lake</b><small>Bronze / Silver / Gold tables</small></div>
-        </div>
-        <div class="stack-row">
-          <span class="stack-label">COMPUTE</span>
-          <div><b>Apache Spark</b><small>distributed transformations</small></div>
-          <div><b>PySpark</b><small>data processing logic</small></div>
-        </div>
-        <div class="stack-row">
-          <span class="stack-label">PLATFORM</span>
-          <div><b>Databricks</b><small>notebooks + lakehouse workspace</small></div>
-          <div><b>Unity Catalog</b><small>catalog / schema organization</small></div>
-        </div>
-        <div class="stack-row">
-          <span class="stack-label">ORCHESTRATION</span>
-          <div><b>Lakeflow Jobs</b><small>pipeline workflow execution</small></div>
-          <div><b>Widgets + Utilities</b><small>parameterized notebooks</small></div>
-        </div>
-        <div class="stack-row">
-          <span class="stack-label">SERVING</span>
-          <div><b>Dashboards</b><small>Gold analytics consumption</small></div>
-          <div><b>Genie</b><small>natural-language analytics layer</small></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- INTERVIEW -->
-    <section class="section interview-section">
-      <div class="interview-card glass reveal">
-        <div>
-          <span class="kicker">WHY I BUILT IT</span>
-          <h2>“I didn't want to just<br><span class="gradient">prepare for the interview.</span>”</h2>
-          <p>
-            I wanted to understand how the Databricks concepts fit together in an actual
-            Data Engineering workflow — and be able to explain every design choice from
-            raw ingestion to the serving layer.
-          </p>
-        </div>
-        <div class="quote-box">
-          <span>UDP-4-V4C</span>
-          <strong>Built specifically to learn by building.</strong>
-          <small>Self-initiated · Databricks-focused · End-to-end</small>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="section contact" id="contact">
-      <div class="contact-card reveal">
-        <span class="kicker">PROJECT COMPLETE</span>
-        <h2>One project.<br><span class="gradient">One pipeline story.</span></h2>
-        <p>
-          UDP is the single featured project on this portfolio — designed to make the engineering
-          decisions, architecture and Databricks implementation easy to inspect.
-        </p>
-        <div class="contact-actions">
-          <a class="btn btn-primary" href="https://github.com/" target="_blank" rel="noopener">GitHub repository ↗</a>
-          <a class="btn btn-ghost" href="#home">Back to top ↑</a>
-        </div>
+        <a class="btn primary" href="#home">Back to top ↑</a>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div>
-      <strong>UDP</strong> — Unified Data Pipeline
-    </div>
-    <div>Self-initiated Data Engineering POC · 2026</div>
-    <div>Databricks · PySpark · Delta · S3</div>
-  </footer>
-
+  <footer><strong>UDP — Unified Data Pipeline</strong><span>Self-initiated Data Engineering POC · 2026</span><span>Databricks · PySpark · Delta · S3</span></footer>
   <script src="script.js"></script>
 </body>
 </html>
